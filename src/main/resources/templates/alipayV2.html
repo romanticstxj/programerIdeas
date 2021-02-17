@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Wechatpay Mock Page</title>
+
+
+</head>
+
+<body>
+
+<main role="main" class="container">
+
+    <div class="starter-template">
+        <h1>Alipay Mock Client V2</h1>
+    </div>
+
+    <table>
+        <tr>
+            <td>
+                <div>
+                    <span>Step 1:CreateCombinedPaymentTransaction Service</span><br>
+                    <textarea rows="30" cols="50" id="txtCreatePaymentJson" th:text="${message}"></textarea>
+                    <br> <br> <input type="button" value="Submit Request" id="btnSubmitCreatePayment">
+                </div>
+            </td>
+            <td>
+                <div>
+                    <span>Step 2:Redirect Request to Alipay</span><br>
+                    <textarea rows="30" cols="70" id="txtParams"></textarea>
+                    <br>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div style="text-align:center;" id="alipayFormDiv"></div>
+
+</main>
+
+<!-- /.container -->
+<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="./js/qrcode.js"></script>
+<script type="text/javascript" src="./js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.getJSON("json/data_alipayV2.json", function (data) {
+            $("#txtCreatePaymentJson").val(JSON.stringify(data));
+        });
+    });
+
+    $("#btnSubmitCreatePayment").click(function () {
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: "http://localhost:8090/mockclient/v2/transactions/combined",
+            data: $("#txtCreatePaymentJson").val(),
+            async: false,
+            contentType: "application/json",
+            headers: {
+                "Accept-Language": "en",
+                "X-CIP": "10.131.246.128",
+                "Authorization": "BEARER RxJJY07kNINxiIJ0kJMt3y"
+                //"X-Disney-Internal-SHDR-APIM" : true
+            },
+            dataType: "json",
+            error: function (request) {
+                alert(request.responseText);
+            },
+            success: function (data) {
+                var formHTML = "<form id='alipayForm' method='post' action='https://openapi.alipay.com/gateway.do?charset=utf-8'>";
+                var htmlText = "";
+                $.each(data.body.redirectInfo.params,
+                    function (key, val) {
+                        htmlText += (key + " : " + val + "\n");
+                        formHTML += "<input type='hidden' name='" + key + "' value='" + val + "'/>";
+                    });
+                formHTML += "<input type='submit' value='Go to Alipay'></form>";
+                $("#alipayFormDiv").html(formHTML);
+                $("#txtParams").val(htmlText);
+            }
+        });
+    });
+</script>
+</body>
+</html>

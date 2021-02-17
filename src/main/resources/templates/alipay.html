@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Alipay Mock Page</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>
+            <div>
+                <span>Step 1:CreateCombinedPaymentTransaction Service</span><br>
+                <input id="dynaPaymentUrl" type="hidden" th:value="${paymentUrl}"/>
+                <textarea rows="30" cols="50" id="txtCreatePaymentJson" th:text="${message}"></textarea>
+                <br> <br> <input type="button" value="Submit Request" id="btnSubmitCreatePayment">
+            </div>
+        </td>
+        <td>
+            <div>
+                <span>Step 2:Redirect Request to Alipay</span><br>
+                <textarea rows="30" cols="70" id="txtParams"></textarea>
+                <br>
+            </div>
+        </td>
+    </tr>
+</table>
+<div style="text-align:center;" id="alipayFormDiv"></div>
+
+<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="./js/qrcode.js"></script>
+<script type="text/javascript" src="./js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $("#btnSubmitCreatePayment").click(function () {
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: "http://localhost:8090/mockpis" + $("#dynaPaymentUrl").val(),
+            data: $("#txtCreatePaymentJson").val(),
+            async: false,
+            contentType: "application/json",
+            headers: {
+                "Accept-Language": "en",
+                "X-CIP": "10.131.246.128",
+                "Authorization": "BEARER RxJJY07kNINxiIJ0kJMt3y"
+                //"X-Disney-Internal-SHDR-APIM" : true
+            },
+            dataType: "json",
+            error: function (request) {
+                alert(request.responseText);
+            },
+            success: function (data) {
+                var formHTML = "<form id='alipayForm' method='" + data.method + "' action='" + data.url + "'>";
+                var htmlText = "";
+                $.each(data.parameterMap,
+                    function (key, val) {
+                        htmlText += (key + " : " + val + "\n");
+                        formHTML += "<input type='hidden' name='" + key + "' value='" + val + "'/>";
+                    });
+                formHTML += "<input type='submit' value='Go to Alipay'></form>";
+                $("#alipayFormDiv").html(formHTML);
+                $("#txtParams").val(htmlText);
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

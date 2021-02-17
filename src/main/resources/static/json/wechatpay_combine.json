@@ -1,0 +1,41 @@
+{
+  "payOption": "WECHATPAY",
+  "payChannel": "PC_WEB",
+  "pspName": "WECHATPAY",
+  "language": "SIMPLIFIED_CHINESE",
+  "transId": 17085,
+  "ttl": 30,
+  "returnUrl": "http://localhost:8090/mockpis/wechatpay_combine",
+  "parentSessionInfoBo": {
+    "sessionId": "sessionId",
+    "expirationDate": "2020-05-20T13:48:02.454+08:00",
+    "returnUrl": "http://localhost:8090/mockpis/wechatpay_combine",
+    "payUnitInfoList": [
+      {
+        "payUnitId": "2020001",
+        "amount": 0.01,
+        "currency": "CNY",
+        "orderSource": "CART",
+        "orderInfoBo": {
+          "orderNo": "testOrderNo"
+        }
+      }
+    ]
+  },
+  "subOrderInfoBoList": [
+    {
+      "payUnitId": "20000",
+      "totalPrice": 0.01,
+      "orderSource": "TICKETING",
+      "productDesc": "disney product desc ticketing",
+      "body": "disney product body ticketing"
+    },
+    {
+      "payUnitId": "30000",
+      "totalPrice": 0.01,
+      "orderSource": "LODGING",
+      "productDesc": "disney product desc lodging",
+      "body": "disney product body lodging"
+    }
+  ]
+}

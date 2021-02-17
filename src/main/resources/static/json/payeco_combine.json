@@ -1,0 +1,39 @@
+{
+  "payOption": "DOMESTIC_CARD",
+  "payChannel": "PC_WEB",
+  "pspName": "PAYECO",
+  "language": "SIMPLIFIED_CHINESE",
+  "transId": 17085,
+  "ttl": 30,
+  "returnUrl": "http://localhost:8090/mockpis/payeco_combine",
+  "parentSessionInfoBo": {
+    "expirationDate": "2020-05-20T13:48:02.454+08:00",
+    "payUnitInfoList": [
+      {
+        "payUnitId": "",
+        "currency": "CNY",
+        "orderSource": "CART",
+        "orderInfoBo": {
+          "orderNo": "testOrderNo"
+        }
+      }
+    ]
+  },
+  "subOrderInfoBoList": [
+    {
+      "payUnitId": "",
+      "totalPrice": 200,
+      "orderSource": "TICKETING",
+      "productDesc": "ticketing prod",
+      "body": "ticketing prod body"
+    },
+    {
+      "payUnitId": "",
+      "totalPrice": 400,
+      "orderSource": "LODGING",
+      "productDesc": "lodging prod",
+      "body": "lodging prod body"
+    }
+  ],
+  "applicationName": "PIS"
+}

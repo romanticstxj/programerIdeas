@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Wechatpay Mock Page</title>
+</head>
+<body>
+
+<main role="main" class="container">
+
+    Number page
+    <form id="numberForm" action="game/number" method="post">
+        <input type="text" name="operation" placeholder="operation">
+        <input type="text" name="numerator1" placeholder="numerator1">
+        <input type="text" name="denominator1" placeholder="denominator1">
+        <input type="text" name="numerator2" placeholder="numerator2">
+        <input type="text" name="denominator2" placeholder="denominator2">
+    </form>
+    <button type="button" id="submitAdd">Submit</button>
+    <br/>
+    <label id="result"></label>
+
+</main>
+
+<!-- /.container -->
+<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="./js/qrcode.js"></script>
+<script type="text/javascript" src="./js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $("#submitAdd").click(function(){
+        // alert('begin submit');
+        var targetUrl = $("#numberForm").attr("action");
+        // var data = $("#numberForm").serialize();
+
+        // 初始化 序列化对象的方法
+        initSerializeObject();
+        //获取 from表单的数据
+        let data = $("#numberForm").serializeObject();
+
+        $.ajax({
+            type:'post',
+            url:targetUrl,
+            cache: false,
+            data:JSON.stringify(data),  //重点必须为一个变量如：data
+            dataType:'json',
+            contentType: 'application/json; charset=utf-8',
+            success:function(result){
+                $("#result").text(JSON.stringify(result))
+            },
+            error:function(error){
+                $("#result").text(JSON.stringify(error))
+            },
+            complete:function(){
+            }
+        })
+
+    })
+
+    /**
+     * 初始化  serializeObject
+     */
+    function initSerializeObject() {
+        $.fn.serializeObject = function () {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
+    }
+</script>
+</body>
+</html>

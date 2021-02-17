@@ -1,0 +1,39 @@
+{
+  "payOption": "ALIPAY",
+  "payChannel": "PC_WEB",
+  "pspName": "ALIPAY",
+  "language": "SIMPLIFIED_CHINESE",
+  "transId": 17085,
+  "ttl": 30,
+  "returnUrl": "http://localhost:8090/mockpis/alipay_combine",
+  "parentSessionInfoBo": {
+    "expirationDate": "2020-05-20T13:48:02.454+08:00",
+    "payUnitInfoList": [
+      {
+        "payUnitId": "2020001",
+        "amount": 0.01,
+        "currency": "CNY",
+        "orderSource": "CART",
+        "orderInfoBo": {
+          "orderNo": "testOrderNo"
+        }
+      }
+    ]
+  },
+  "subOrderInfoBoList": [
+    {
+      "payUnitId": "20000",
+      "totalPrice": 0.01,
+      "orderSource": "TICKETING",
+      "body": "body ticketing",
+      "productDesc": "product desc ticketing"
+    },
+    {
+      "payUnitId": "30000",
+      "totalPrice": 0.01,
+      "orderSource": "LODGING",
+      "body": "body lodging",
+      "productDesc": "product desc lodging"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" strict="true" name="PmwLogConfig" packages="com.disney.wdpro.service.pmw.ctx">
+    <Properties>
+        <!-- logFolder will default to the logs folder in catalina base -->
+        <Property name="wdpro.logdir">/Users/tengx009/logs/mockpis</Property>
+    </Properties>
+    <Appenders>
+        <!-- If logFolder is defined in the jvm flags it will override the property
+            defined above -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <RollingRandomAccessFile name="SERVER" append="true" fileName="${wdpro.logdir}/server.log"
+                                 filePattern="${wdpro.logdir}/server-%d{yyyy-MM-dd}-%i.log" ignoreExceptions="false">
+            <PatternLayout
+                    pattern="%d %-5p %t ConvoId=%X{ConversationId} CorrId=%X{CorrelationId} PageId=%X{PageId} [%c] %m%n"/>
+            <Filters>
+                <!-- first deny error and fatal messages -->
+                <ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="fatal" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <!-- then accept everything -->
+                <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="50"/>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="ERROR" append="true" fileName="${wdpro.logdir}/error.log"
+                                 filePattern="${wdpro.logdir}/error-%d{yyyy-MM-dd}-%i.log" ignoreExceptions="false">
+            <PatternLayout
+                    pattern="%d %-5p %t ConvoId=%X{ConversationId} CorrId=%X{CorrelationId} PageId=%X{PageId} [%c] %m%n"/>
+            <!-- only accept error or above -->
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="50"/>
+        </RollingRandomAccessFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="debug">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="SERVER"/>
+            <AppenderRef ref="ERROR"/>
+        </Root>
+    </Loggers>
+</Configuration>

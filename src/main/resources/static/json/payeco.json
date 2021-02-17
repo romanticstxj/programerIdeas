@@ -1,0 +1,33 @@
+{
+  "orderInfoResource": {
+    "orderNo": "orderNo",
+    "orderAmount": "0.1",
+    "currency": "CNY",
+    "orderSource": "TICKETING",
+    "productDesc": "TESTPROD",
+    "productItems": [
+      {
+        "description": "TESTDESC",
+        "unitPrice": "0.1",
+        "qty": "1",
+        "productGroup": "STANDARD",
+        "type": "PARK_TICKET"
+      }
+    ]
+  },
+  "payUnitId": "testPayuntid",
+  "sessionInfoResource": {
+    "sessionId": "sessionId",
+    "expirationDate": "2020-06-15T16:20:02.454+08:00",
+    "returnUrl": "http://localhost:8090/mockpis/payeco",
+    "ttl": 30
+  },
+  "transactionInfoResource": {
+    "payOption": "DOMESTIC_CARD",
+    "payChannel": "PC_WEB",
+    "pspName": "PAYECO",
+    "language": "SIMPLIFIED_CHINESE",
+    "transId": 17085
+  },
+  "applicationName": "PIS"
+}
