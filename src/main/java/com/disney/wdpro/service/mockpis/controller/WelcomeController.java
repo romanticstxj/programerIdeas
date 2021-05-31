@@ -50,6 +50,16 @@ public class WelcomeController {
         return "number";
     }
 
+    @GetMapping("/clock")
+    public String clock(){
+//        NumberDto numberDto = new NumberDto().setFirstNumerator(1)
+//                .setFirstDenominator(4)
+//                .setSecondNumerator(1)
+//                .setSecondDenominator(6);
+
+        return "game/clock";
+    }
+
     @GetMapping("/findVowel")
     public int foundVowelNumber(){
         Set<Character> vowelChars = Sets.newHashSet('a', 'o', 'i', 'e', 'u');

@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Spring Boot Thymeleaf Hello World Example</title>
+
+    <link type="text/css" href="./css/jquery.datetimepicker.css" rel="stylesheet" />
+    <script type="text/javascript" src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./js/jquery.datetimepicker.js"></script>
+    <script type="text/javascript">
+        var wsUri ="ws://127.0.0.1:8090/programerIdeas/my-chat/michael";
+        var output;
+
+        $(document).ready(function () {
+            $('#datetimepicker').datetimepicker();
+
+            $("#myButton").click(function () {
+                websocket.send("test my button");
+            });
+        });
+
+
+
+        function init() {
+
+            //检查浏览器是否支持WebSocket
+            if(window.WebSocket){
+                console.log('This browser supports WebSocket');
+            }else{
+                console.log('This browser does not supports WebSocket');
+            }
+            output = document.getElementById("output");
+            testWebSocket();
+        }
+
+        function testWebSocket() {
+            websocket = new WebSocket(wsUri);
+            websocket.onopen = function(evt) {
+                onOpen(evt)
+            };
+            websocket.onclose = function(evt) {
+                onClose(evt)
+            };
+            websocket.onmessage = function(evt) {
+                onMessage(evt)
+            };
+            websocket.onerror = function(evt) {
+                onError(evt)
+            };
+        }
+
+        function onOpen(evt) {
+            writeToScreen("CONNECTED");
+            doSend("WebSocket rocks");
+        }
+
+        function onClose(evt) {
+            writeToScreen("DISCONNECTED");
+        }
+
+        function onMessage(evt) {
+            writeToScreen('<span style="color: blue;">RESPONSE: '+ evt.data+'</span>');
+            websocket.close();
+        }
+
+        function onError(evt) {
+            writeToScreen('<span style="color: red;">ERROR:</span> '+ evt.data);
+        }
+
+        function doSend(message) {
+            writeToScreen("SENT: " + message);
+            websocket.send(message);
+        }
+
+        function writeToScreen(message) {
+            var pre = document.createElement("p");
+            pre.style.wordWrap = "break-word";
+            pre.innerHTML = message;
+            output.appendChild(pre);
+        }
+
+        window.addEventListener("load", init, false);
+
+    </script>
+</head>
+
+<body>
+    <h2>WebSocket Test</h2>
+    <div id="output"></div>
+    <input id="datetimepicker" type="text" >
+    <input id="myText" type="text" >
+    <input id="myButton" value="myButton" type="button"/>
+</body>
+</html>
